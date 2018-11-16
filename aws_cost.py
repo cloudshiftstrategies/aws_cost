@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import boto3, datetime, begin, calendar, datetime, logging
+import boto3, datetime, begin, calendar, datetime, logging, json
 """
 example usage:
 # look up all service totals for account 123456789012 this month
@@ -21,9 +21,8 @@ example usage:
 logging.getLogger('botocore').setLevel(logging.WARNING)
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
-@begin.start
-@begin.logging
-def run(account_id, service=None, month='current', role_name=None):
+
+def get_aws_cost(account_id, service=None, month='current', role_name=None):
     "Use AWS Cost Explorer API to look up costs for an account"
     if service:
         logging.debug(f"requested service: {service}")
@@ -80,9 +79,10 @@ def run(account_id, service=None, month='current', role_name=None):
         logging.debug(f"found {len(services)} services active for this account/time period")
 
     # Get the total for the service
-    print(f"Dates: {start_date} - {end_date}")
-    print("%-13s%-40s%10s" %('Account ID','Service','Total'))
+    result = {}
+    result['attributes'] = {'account_id': account_id, 'start_date': start_date, 'end_date': end_date}
     total = 0.0
+    result['services'] = {}
     for service in services:
         amount = None
         response = ce_client.get_cost_and_usage(
@@ -96,10 +96,23 @@ def run(account_id, service=None, month='current', role_name=None):
             ],
             Filter= {'Dimensions': { 'Key': 'SERVICE', 'Values': [service] } }
         )
-        amount = float(response['ResultsByTime'][0]['Total']['UnblendedCost']['Amount'])
+        amount = round(float(response['ResultsByTime'][0]['Total']['UnblendedCost']['Amount']),5)
         total += amount
-        amount = '${:,.2f}'.format(amount)
-        print("%-13s%-40s%10s" %(account_id, service[:39], amount))
+        result['services'][service] = amount
 
-    total = '${:,.2f}'.format(total)
-    print("%-13s%-40s%10s" %(account_id, 'Total', total))
+    result['Total'] = total
+    return result
+
+
+@begin.start
+@begin.logging
+def run(account_id, service=None, month='current', role_name=None, json_out=False):
+    result = get_aws_cost(account_id, service, month, role_name)
+    if json_out:
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"Dates: {result['attributes']['start_date']} - {result['attributes']['end_date']}")
+        print("%-13s%-40s%10s" %('Account ID','Service','Total'))
+        for service in result['services']:
+            print("%-13s%-40s%10s" %(result['attributes']['account_id'], service[:39], '${:,.2f}'.format(result['services'][service])))
+        print("%-13s%-40s%10s" %(result['attributes']['account_id'], 'Total', '${:,.2f}'.format(result['Total'])))
