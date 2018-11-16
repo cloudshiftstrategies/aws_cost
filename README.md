@@ -49,7 +49,7 @@ account_id   service                                      total
     "end_date": "2018-10-31"
   },
   "services": {
-	  "AWS Budgets": 0.56,
+    "AWS Budgets": 0.56,
     "AWS Cost Explorer": 0.02,
     "AWS Key Management Service": 6e-05,
     "AWS Lambda": 0.10275,
@@ -73,6 +73,7 @@ account_id   service                                      total
 Here is an example [cloud formation template](https://s3-us-west-2.amazonaws.com/cfn.cloudshift.cc/CssCostExplorerRole.json) that creates an IAM role in the target account with cost explorer access.
 
 ## Module examples
+You can call this code as a module from your python scripts
 ```python
 >>> from aws_cost.aws_cost import get_aws_cost
 >>> get_aws_cost(account_id=123456789012)
