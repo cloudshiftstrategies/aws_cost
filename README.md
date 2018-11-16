@@ -9,7 +9,7 @@ This is a tool designed to pull cost data from AWS cost explorer
 example usage:
 ```bash
 
-# look up all service totals for account 123456789012 September, 2018
+# look up all service totals for account 357849880876 for July, 2018
 ./aws_cost.py 357849880876 -m 2018-07
 Dates: 2018-07-01 - 2018-07-31
 account_id   service                                      total
@@ -24,13 +24,13 @@ account_id   service                                      total
 357849880876 AmazonCloudWatch                             $0.00
 357849880876 Total                                       $74.71
 
-# look up all service totals for account 123456789012 this month
+# look up all service totals for account 123456789012, current month
 ./aws_cost.py 123456789012
 Dates: 2018-11-01 - 2018-11-07
 account_id   service                                      total
 ....
 
-# look up all Support totals for account 123456789012 this month
+# look up cost of "AWS Support (Business)" for account 123456789012, current month
 ./aws_cost.py 123456789012 -s "AWS Support (Business)"
 Dates: 2018-11-01 - 2018-11-07
 account_id   service                                      total
@@ -40,6 +40,8 @@ account_id   service                                      total
 # look up all totals using a cross account role
 ./aws_cost.py 123456789012 -r CloudShift_CostExplorerRole
 ```
+
+Here is an example [cloud formation template](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=CssCostExplorerRole&templateURL=https://s3-us-west-2.amazonaws.com/cfn.cloudshift.cc/CssCostExplorerRole.json) that creates an IAM role in the target account with cost explorer access.
 
 ## Module examples
 This library is not currently designed to be used as a module in your python apps
