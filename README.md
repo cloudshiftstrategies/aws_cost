@@ -41,7 +41,7 @@ account_id   service                                      total
 ./aws_cost.py 123456789012 -r CloudShift_CostExplorerRole
 ```
 
-Here is an example [cloud formation template](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=CssCostExplorerRole&templateURL=https://s3-us-west-2.amazonaws.com/cfn.cloudshift.cc/CssCostExplorerRole.json) that creates an IAM role in the target account with cost explorer access.
+Here is an example [cloud formation template](https://s3-us-west-2.amazonaws.com/cfn.cloudshift.cc/CssCostExplorerRole.json) that creates an IAM role in the target account with cost explorer access.
 
 ## Module examples
 This library is not currently designed to be used as a module in your python apps
