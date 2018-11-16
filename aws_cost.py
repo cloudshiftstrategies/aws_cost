@@ -81,7 +81,7 @@ def run(account_id, service=None, month='current', role_name=None):
 
     # Get the total for the service
     print(f"Dates: {start_date} - {end_date}")
-    print("%-13s%-40s%10s" %('account_id','service','total'))
+    print("%-13s%-40s%10s" %('Account ID','Service','Total'))
     total = 0.0
     for service in services:
         amount = None
@@ -96,11 +96,10 @@ def run(account_id, service=None, month='current', role_name=None):
             ],
             Filter= {'Dimensions': { 'Key': 'SERVICE', 'Values': [service] } }
         )
-        amount = response['ResultsByTime'][0]['Total']['UnblendedCost']['Amount']
-        total += float(amount)
-        amount = "$" + str(round(float(amount),2))
+        amount = float(response['ResultsByTime'][0]['Total']['UnblendedCost']['Amount'])
+        total += amount
+        amount = '${:,.2f}'.format(amount)
         print("%-13s%-40s%10s" %(account_id, service[:39], amount))
 
-    total = "$" + str(round(float(total),2))
+    total = '${:,.2f}'.format(total)
     print("%-13s%-40s%10s" %(account_id, 'Total', total))
-

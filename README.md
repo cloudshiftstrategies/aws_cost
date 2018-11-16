@@ -15,13 +15,13 @@ Dates: 2018-07-01 - 2018-07-31
 account_id   service                                      total
 357849880876 AWS Budgets                                  $0.52
 357849880876 AWS Cost Explorer                           $59.84
-357849880876 AWS Data Transfer                             $0.0
-357849880876 AWS Support (Business)                        $6.8
+357849880876 AWS Data Transfer                            $0.00
+357849880876 AWS Support (Business)                       $6.80
 357849880876 EC2 - Other                                  $3.52
 357849880876 Amazon Elastic Compute Cloud - Compute       $4.03
-357849880876 Amazon Simple Notification Service            $0.0
-357849880876 Amazon Simple Storage Service                 $0.0
-357849880876 AmazonCloudWatch                              $0.0
+357849880876 Amazon Simple Notification Service           $0.00
+357849880876 Amazon Simple Storage Service                $0.00
+357849880876 AmazonCloudWatch                             $0.00
 357849880876 Total                                       $74.71
 
 # look up all service totals for account 123456789012 this month
