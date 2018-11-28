@@ -10,7 +10,7 @@ example usage:
 ```bash
 
 # look up all service totals for account 123456789012 for July, 2018
-./aws_cost.py 123456789012 -m 2018-07
+./aws_cost.py -a 123456789012 -m 2018-07
 Dates: 2018-07-01 - 2018-07-31
 account_id   service                                      total
 123456789012 AWS Budgets                                  $0.52
@@ -25,23 +25,23 @@ account_id   service                                      total
 123456789012 Total                                       $74.71
 
 # look up all service totals for account 123456789012, current month
-./aws_cost.py 123456789012
+./aws_cost.py -a 123456789012
 Dates: 2018-11-01 - 2018-11-07
 account_id   service                                      total
 ....
 
 # look up cost of "AWS Support (Business)" for account 123456789012, current month
-./aws_cost.py 123456789012 -s "AWS Support (Business)"
+./aws_cost.py -a 123456789012 -s "AWS Support (Business)"
 Dates: 2018-11-01 - 2018-11-07
 account_id   service                                      total
 123456789012 AWS Support (Business)                        $6.8
 123456789012 Total                                         $6.8
 
 # look up all totals using a cross account role
-./aws_cost.py 123456789012 -r CloudShift_CostExplorerRole
+./aws_cost.py -a 123456789012 -r CloudShift_CostExplorerRole
 
 # print with json output
-./aws_cost.py 123456789012 --json-out
+./aws_cost.py -a 123456789012 --json-out
 {
   "attributes": {
     "account_id": "123456789012",

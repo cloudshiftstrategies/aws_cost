@@ -22,7 +22,7 @@ logging.getLogger('botocore').setLevel(logging.WARNING)
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 
 
-def get_aws_cost(account_id, service=None, month='current', role_name=None):
+def get_aws_cost(account_id=None, service=None, month='current', role_name=None):
     "Use AWS Cost Explorer API to look up costs for an account"
     if service:
         logging.debug(f"requested service: {service}")
@@ -38,6 +38,9 @@ def get_aws_cost(account_id, service=None, month='current', role_name=None):
         logging.debug(f"requested month: {month}")
         start_date = month + "-01"
         end_date = month + "-%s" %calendar.monthrange(int(month.split("-")[0]), int(month.split("-")[1]))[1]
+    if not account_id:
+        # Get the account_id for which we have creds
+        account_id = boto3.client('sts').get_caller_identity().get('Account')
     if role_name:
         logging.debug(f"requested role name: {role_name}")
         RoleArn = 'arn:aws:iam::%s:role/%s' %(account_id, role_name)
@@ -106,7 +109,7 @@ def get_aws_cost(account_id, service=None, month='current', role_name=None):
 
 @begin.start
 @begin.logging
-def run(account_id, service=None, month='current', role_name=None, json_out=False):
+def run(account_id=None, service=None, month='current', role_name=None, json_out=False):
     result = get_aws_cost(account_id, service, month, role_name)
     if json_out:
         print(json.dumps(result, indent=2))
