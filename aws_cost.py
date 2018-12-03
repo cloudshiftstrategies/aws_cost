@@ -26,7 +26,10 @@ def get_aws_cost(account_id=None, service=None, month='current', role_name=None)
     "Use AWS Cost Explorer API to look up costs for an account"
     if service:
         logging.debug(f"requested service: {service}")
-        services = [service]
+        if ',' in service:
+            services = service.split(',')
+        else:
+            services = [service]
     else:
         logging.debug(f"no service specified, checking all services")
         services = []
