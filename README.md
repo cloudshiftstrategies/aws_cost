@@ -37,6 +37,14 @@ account_id   service                                      total
 123456789012 AWS Support (Business)                        $6.8
 123456789012 Total                                         $6.8
 
+# look up cost of 2 AWS services in this account, current month
+./aws_cost.py -s "AWS Greengrass,AWS IoT"
+Dates: 2018-12-01 - 2018-12-04
+Account ID   Service                                      Total
+150337127586 AWS Greengrass                               $0.32
+150337127586 AWS IoT                                      $0.01
+150337127586 Total                                        $0.33
+
 # look up all totals using a cross account role
 ./aws_cost.py -a 123456789012 -r CloudShift_CostExplorerRole
 
